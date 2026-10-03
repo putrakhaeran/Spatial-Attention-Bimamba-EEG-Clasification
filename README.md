@@ -11,17 +11,17 @@ Universitas Jenderal Achmad Yani
 
 ## Overview
 
-This project presents an experimental deep learning architecture called **Spatial Attention BiMamba (SA-BiMamba)** for multi-task Electroencephalogram (EEG) signal classification.
+This project presents an experimental deep learning architecture called **Spatial Attention BiMamba (SA-BiMamba)** for Electroencephalogram (EEG) signal classification.
 
-The research investigates EEG representations across three different classification tasks:
+The research focuses on analyzing EEG representations across three classification tasks:
 
 - **Motor Imagery (MI)**
 - **Emotion Recognition**
 - **Cognitive Focus Classification**
 
-The proposed approach combines spatial EEG representation, attention mechanisms, and bidirectional Mamba-based sequence modeling to capture both spatial and sequential information within EEG signals.
+The proposed approach combines spatial EEG representation, attention mechanisms, and Mamba-based sequence modeling to capture spatial and sequential information within EEG signals.
 
-In addition to supervised classification, this research also explores **Self-Supervised Learning (SSL)** for EEG representation learning through signal reconstruction and pre-training.
+In addition to supervised classification, this research also explores **Self-Supervised Learning (SSL)** as a pre-training strategy for EEG representation learning through signal reconstruction.
 
 This project was developed as part of a collaborative student research initiative under **Program Kreativitas Mahasiswa (PKM)**.
 
@@ -31,11 +31,11 @@ This project was developed as part of a collaborative student research initiativ
 
 The main objectives of this research are:
 
-1. Develop a deep learning architecture for multi-task EEG classification.
+1. Develop a deep learning architecture for EEG classification.
 2. Explore spatial relationships between EEG channels.
 3. Apply spatial attention to emphasize informative EEG representations.
-4. Utilize Bidirectional Mamba for sequential EEG modeling.
-5. Evaluate individual architectural components through ablation experiments.
+4. Utilize Mamba-based modeling for EEG feature representation.
+5. Evaluate architectural components through ablation experiments.
 6. Explore Self-Supervised Learning for EEG representation pre-training.
 7. Evaluate the learned representations across Motor Imagery, Emotion, and Focus classification tasks.
 
@@ -61,12 +61,13 @@ The general experimental workflow consists of:
 2. EEG signal preprocessing
 3. Spatial and temporal representation
 4. Spatial Attention processing
-5. Bidirectional Mamba feature modeling
-6. Multi-task classification
-7. Model training and validation
-8. Ablation study
-9. Self-Supervised Learning pre-training
-10. Model evaluation and analysis
+5. Mamba-based feature modeling
+6. Classification
+7. Self-Supervised Learning pre-training
+8. Fine-tuning
+9. Model validation
+10. Ablation study
+11. Performance evaluation
 
 ---
 
@@ -79,30 +80,41 @@ The architecture incorporates several main components:
 - EEG Input Representation
 - Spatial Feature Processing
 - Spatial Attention
-- Mamba-based Spatial Modeling
-- Bidirectional Sequential Modeling
-- Temporal Feature Processing
+- Spatial Mamba Block
+- Temporal Mamba Block
+- Feature Integration
 - Classification Layers
 
 ### Spatial Attention
 
-The Spatial Attention mechanism is designed to emphasize informative spatial relationships across EEG channels.
+The **Spatial Attention** mechanism is designed to emphasize informative spatial relationships across EEG channels.
 
-Since EEG signals are recorded through multiple electrodes positioned across different scalp regions, spatial modeling allows the architecture to learn relationships between channel-level representations.
+Since EEG signals are recorded from multiple electrodes positioned across different scalp regions, spatial modeling allows the architecture to learn relationships between channel-level representations.
 
-### Bidirectional Mamba
+### BiMamba
 
-Bidirectional Mamba is used to model sequential EEG representations from multiple directions.
+The BiMamba component is used for sequence modeling within the EEG representation.
 
-This allows the architecture to capture contextual dependencies within the EEG representation while maintaining the efficient sequence modeling characteristics of Mamba-based architectures.
+The architecture aims to capture contextual dependencies within EEG signals while utilizing the sequence-modeling capabilities of Mamba-based architectures.
+
+---
+
+# Experimental Results
+
+The proposed architecture was evaluated using multiple experimental analyses, including:
+
+- Validation Accuracy
+- Macro F1-Score
+- Confusion Matrix
+- Ablation Study
+- Self-Supervised EEG Reconstruction
+- Layer-wise SSL Pre-training Analysis
 
 ---
 
 ## Validation Performance
 
-The model was evaluated across Motor Imagery, Emotion, and Focus classification tasks using validation Accuracy and Macro F1-Score.
-
-The validation curves show different performance characteristics across the three EEG tasks.
+The fine-tuned model was evaluated across **Motor Imagery, Emotion, and Focus** classification tasks using validation Accuracy and Macro F1-Score.
 
 ### Validation Performance Summary
 
@@ -112,45 +124,54 @@ The validation curves show different performance characteristics across the thre
 | **Emotion** | ~84% | ~84% |
 | **Focus** | ~97% | ~97% |
 
-> Values shown above are approximate values based on the final validation curves and may vary slightly between experimental runs.
+> The values above are approximate values based on the final validation curves and may vary slightly between experimental runs.
 
-### Validation Accuracy and Macro F1
+### Validation Accuracy and Macro F1 Curves
 
 <p align="center">
-  <img src="results/validation_performance_curves.png"
+  <img src="results/validaion_performance%20FINE%20TUNING%20with%20SSL.png"
        alt="Validation Accuracy and Macro F1 Curves"
        width="1000">
 </p>
 
-The figure shows the validation Accuracy and Macro F1-Score across training epochs for the three classification tasks.
+The visualization shows the validation performance across training epochs for all three EEG classification tasks.
+
+The figure includes:
+
+- Motor Imagery Accuracy
+- Emotion Accuracy
+- Focus Accuracy
+- Motor Imagery Macro F1
+- Emotion Macro F1
+- Focus Macro F1
 
 ---
 
 ## Confusion Matrix Analysis
 
-Confusion matrices were used to analyze the prediction distribution of the model across each classification task.
+Confusion matrices were used to analyze class-level prediction performance after fine-tuning with SSL-based representations.
 
 <p align="center">
-  <img src="results/confusion_matrices.png"
-       alt="Confusion Matrices for Motor Imagery Emotion and Focus"
+  <img src="results/eeg_classification_confusion_matrices%20FINE%20TUNING%20with%20SSL.png.png"
+       alt="EEG Classification Confusion Matrices"
        width="1000">
 </p>
 
-The confusion matrices provide a class-level view of model predictions for:
+The confusion matrices provide a detailed view of model predictions across the three classification tasks:
 
-- Motor Imagery
-- Emotion
-- Focus
+- **Motor Imagery**
+- **Emotion**
+- **Focus**
 
-This evaluation complements the aggregate Accuracy and Macro F1 metrics by showing how predictions are distributed across individual classes.
+This analysis complements Accuracy and Macro F1-Score by showing the distribution of correct and incorrect predictions across individual classes.
 
 ---
 
 ## Ablation Study
 
-An ablation study was conducted to evaluate the contribution of individual components within the proposed **Spatial Attention BiMamba (SA-BiMamba)** architecture.
+An ablation study was conducted to investigate the contribution of individual components within the proposed **Spatial Attention BiMamba (SA-BiMamba)** architecture.
 
-The full architecture was compared against several modified configurations where specific components were removed.
+The full model was compared against several configurations in which specific components were removed.
 
 The evaluated configurations include:
 
@@ -161,89 +182,114 @@ The evaluated configurations include:
 - Without Temporal Mamba Block
 
 <p align="center">
-  <img src="results/ablation_study_accuracy.png"
+  <img src="results/ablation_study_accuracy.png.png"
        alt="Spatial Attention BiMamba Ablation Study"
        width="1000">
 </p>
 
-The ablation experiment helps analyze how individual architectural components contribute to performance across Motor Imagery, Emotion, and Focus classification tasks.
+The experiment compares the accuracy of each configuration across:
+
+- Motor Imagery
+- Emotion
+- Focus
+
+The ablation study provides insight into how individual components contribute to the overall classification performance of the architecture.
 
 ---
 
-## Self-Supervised Learning
+# Self-Supervised Learning
 
-Self-Supervised Learning (SSL) was explored as a pre-training strategy for learning EEG representations before downstream classification.
+Self-Supervised Learning (SSL) was explored as a pre-training strategy for learning meaningful EEG representations before downstream classification.
 
-The SSL experiments focus on learning representations through EEG reconstruction and evaluating whether pre-trained representations improve downstream classification performance.
+The SSL experiments consist of two main analyses:
 
-### EEG Signal Reconstruction
+1. **EEG Signal Reconstruction**
+2. **Layer-wise SSL Pre-training Evaluation**
 
-During SSL pre-training, the model learns to reconstruct EEG representations from the input signal.
+---
 
-The visualization below presents:
+## EEG Signal Reconstruction
 
-- Original target EEG representation
-- Reconstructed representation
-- Absolute reconstruction error
-- One-dimensional signal tracking between target and prediction
+During Self-Supervised Learning, the model learns EEG representations through a reconstruction objective.
+
+The reconstruction experiment compares the original EEG representation against the reconstructed signal generated by the model.
 
 <p align="center">
-  <img src="results/ssl_eeg_signal_reconstruction.png"
+  <img src="results/ssl_eeg_signal_reconstruction.png.png"
        alt="Self-Supervised EEG Signal Reconstruction"
        width="1000">
 </p>
 
-The reconstruction task encourages the model to learn structural characteristics of EEG signals without relying directly on classification labels.
+The visualization includes:
+
+- **Target EEG representation**
+- **Reconstructed EEG representation**
+- **Absolute reconstruction error**
+- **1D signal tracking between target and prediction**
+
+The reconstruction objective encourages the model to learn structural information from EEG signals without directly relying on downstream classification labels.
 
 ---
 
 ## SSL Pre-training Analysis
 
-To evaluate the representations learned through Self-Supervised Learning, layer-wise features were compared between:
+To evaluate the representations learned through Self-Supervised Learning, layer-wise features from an **SSL pre-trained model** were compared against features obtained from a **randomly initialized model**.
 
-- **Random Initialization**
-- **SSL Pre-trained Initialization**
+The analysis evaluates representations at:
 
-The comparison was performed across the Spatial representation, Block 1, and Block 2.
+- Spatial Layer
+- Block 1
+- Block 2
+
+across Motor Imagery, Emotion, and Focus classification tasks.
 
 <p align="center">
-  <img src="results/ssl_pretraining_layerwise_performance.png"
+  <img src="results/ssl_pretraining_layerwise_performance.png.png"
        alt="SSL Pretraining Layer-wise Performance"
        width="1000">
 </p>
 
 ### Layer-wise Accuracy Comparison
 
-| Task | Layer | Random Init | SSL Pre-trained |
+| Task | Layer | Random Initialization | SSL Pre-trained |
 |---|---|---:|---:|
 | **Motor Imagery** | Spatial | 36.5% | 45.5% |
-| | Block 1 | 42.4% | 45.5% |
-| | Block 2 | 46.2% | 51.0% |
+| **Motor Imagery** | Block 1 | 42.4% | 45.5% |
+| **Motor Imagery** | Block 2 | 46.2% | **51.0%** |
 | **Emotion** | Spatial | 58.9% | 60.8% |
-| | Block 1 | 62.7% | 67.8% |
-| | Block 2 | 63.7% | 69.3% |
+| **Emotion** | Block 1 | 62.7% | 67.8% |
+| **Emotion** | Block 2 | 63.7% | **69.3%** |
 | **Focus** | Spatial | 59.1% | 64.6% |
-| | Block 1 | 65.3% | 70.1% |
-| | Block 2 | 66.7% | 75.0% |
+| **Focus** | Block 1 | 65.3% | 70.1% |
+| **Focus** | Block 2 | 66.7% | **75.0%** |
 
-Across the evaluated representations, the SSL pre-trained initialization produced higher downstream accuracy than random initialization in the reported experiments.
+Across the evaluated layers in these experiments, the SSL pre-trained representations produced higher downstream classification accuracy than the corresponding randomly initialized representations.
+
+### Block 2 Comparison
+
+| Classification Task | Random Init | SSL Pre-trained | Difference |
+|---|---:|---:|---:|
+| **Motor Imagery** | 46.2% | 51.0% | +4.8 pp |
+| **Emotion** | 63.7% | 69.3% | +5.6 pp |
+| **Focus** | 66.7% | 75.0% | +8.3 pp |
+
+> `pp` represents percentage-point difference.
 
 ---
 
-## Experimental Results Summary
+## Experimental Summary
 
-The experiments evaluate the proposed architecture from multiple perspectives:
+The experiments analyze the proposed architecture from multiple perspectives.
 
 | Experiment | Purpose |
 |---|---|
-| **Validation Accuracy** | Evaluate overall classification performance |
-| **Macro F1-Score** | Evaluate balanced classification performance across classes |
+| **Validation Accuracy** | Evaluate overall classification accuracy |
+| **Macro F1-Score** | Evaluate classification performance across classes |
 | **Confusion Matrix** | Analyze class-level prediction behavior |
-| **Ablation Study** | Evaluate contributions of individual architecture components |
-| **SSL Reconstruction** | Analyze self-supervised EEG representation learning |
-| **Layer-wise SSL Analysis** | Compare SSL pre-training against random initialization |
-
-These experiments provide both classification-level and representation-level analysis of the proposed architecture.
+| **Ablation Study** | Investigate contributions of individual architecture components |
+| **SSL Reconstruction** | Evaluate self-supervised EEG representation learning |
+| **Layer-wise SSL Analysis** | Compare SSL pre-training with random initialization |
+| **Fine-tuning** | Evaluate learned representations on downstream EEG classification tasks |
 
 ---
 
@@ -251,17 +297,17 @@ These experiments provide both classification-level and representation-level ana
 
 The project involves:
 
-- Python
-- Jupyter Notebook
-- Artificial Intelligence
-- Machine Learning
-- Deep Learning
-- Mamba / BiMamba
-- Spatial Attention
-- Self-Supervised Learning
-- EEG Signal Processing
-- Signal Reconstruction
-- Brain-Computer Interface
+- **Python**
+- **Jupyter Notebook**
+- **Artificial Intelligence**
+- **Machine Learning**
+- **Deep Learning**
+- **Mamba / BiMamba**
+- **Spatial Attention**
+- **Self-Supervised Learning**
+- **EEG Signal Processing**
+- **Signal Reconstruction**
+- **Brain-Computer Interface**
 
 ---
 
@@ -271,24 +317,21 @@ The project involves:
 Spatial-Attention-Bimamba-EEG-Classification/
 │
 ├── results/
-│   ├── validation_performance_curves.png
-│   ├── confusion_matrices.png
-│   ├── ablation_study_accuracy.png
-│   ├── ssl_eeg_signal_reconstruction.png
-│   └── ssl_pretraining_layerwise_performance.png
+│   ├── ablation_study_accuracy.png.png
+│   ├── eeg_classification_confusion_matrices FINE TUNING with SSL.png.png
+│   ├── ssl_eeg_signal_reconstruction.png.png
+│   ├── ssl_pretraining_layerwise_performance.png.png
+│   └── validaion_performance FINE TUNING with SSL.png
 │
-├── .gitignore
 ├── README.md
-├── BiMamba_FINAL_v16.ipynb
-└── requirements.txt
+└── BiMamba_FINAL_v16.ipynb
 ```
 
 ### File Description
 
-- `README.md` — Complete project documentation and experimental overview.
-- `BiMamba_FINAL_v16.ipynb` — Main experimental notebook containing the model implementation, training, and evaluation pipeline.
-- `requirements.txt` — Python dependencies required to run the project.
-- `results/` — Experimental results and visualization outputs.
+- `README.md` — Project documentation, methodology, and experimental results.
+- `BiMamba_FINAL_v16.ipynb` — Main experimental notebook containing the model implementation, training, fine-tuning, and evaluation pipeline.
+- `results/` — Experimental visualizations including validation performance, confusion matrices, ablation study, and SSL experiments.
 
 ---
 
@@ -296,7 +339,13 @@ Spatial-Attention-Bimamba-EEG-Classification/
 
 This project was developed as part of a collaborative student research initiative under **Program Kreativitas Mahasiswa (PKM)**.
 
-The research investigates modern deep learning approaches for EEG signal analysis by combining spatial modeling, attention mechanisms, Mamba-based sequence modeling, and Self-Supervised Learning.
+The research explores deep learning approaches for EEG signal analysis by combining:
+
+- Spatial representation learning
+- Attention mechanisms
+- Mamba-based sequence modeling
+- Self-Supervised Learning
+- Fine-tuning for downstream EEG classification
 
 This repository documents the experimental implementation and research process and is maintained as part of my academic and Artificial Intelligence / Machine Learning portfolio.
 
@@ -308,7 +357,7 @@ This research was conducted collaboratively as part of a student research team.
 
 My involvement includes participation in the development, experimentation, implementation, and evaluation of the EEG classification research pipeline and the **Spatial Attention BiMamba** approach.
 
-> Individual contributions are presented within the context of a collaborative research project.
+Individual contributions are presented within the context of a collaborative research project.
 
 ---
 
@@ -316,13 +365,15 @@ My involvement includes participation in the development, experimentation, imple
 
 **Research / Experimental Project**
 
-The repository represents the experimental implementation developed during the research process. The architecture and evaluation pipeline may continue to be refined as further experiments are conducted.
+The repository represents the experimental implementation developed during the research process.
+
+Further refinement, experimentation, and evaluation may be conducted as the research progresses.
 
 ---
 
 ## Research Areas
 
-`EEG` · `Artificial Intelligence` · `Machine Learning` · `Deep Learning` · `Mamba` · `BiMamba` · `Spatial Attention` · `Self-Supervised Learning` · `Brain-Computer Interface`
+`EEG` · `Artificial Intelligence` · `Machine Learning` · `Deep Learning` · `Mamba` · `BiMamba` · `Spatial Attention` · `Self-Supervised Learning` · `Signal Processing` · `Brain-Computer Interface`
 
 ---
 
